@@ -1,0 +1,28 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Resume API Lambda function using DynamoDB
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: python3.11
+    MemorySize: 128
+
+Resources:
+  ResumeFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: src/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: Resume
+      Environment:
+        Variables:
+          TABLE_NAME: Resume
+      Events:
+        ResumeApi:
+          Type: Api
+          Properties:
+            Path: /resume
+            Method: get
