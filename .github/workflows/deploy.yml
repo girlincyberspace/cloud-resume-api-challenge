@@ -36,6 +36,7 @@ jobs:
                      --stack-name resume-api-stack \
                      --capabilities CAPABILITY_IAM \
                      --region ${{ secrets.AWS_REGION }}
+                     --resolve-s3
 
       - name: Seed Resume Data into DynamoDB
         run: |
