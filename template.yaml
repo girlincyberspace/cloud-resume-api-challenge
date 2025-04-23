@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Resume API Lambda function using DynamoDB
+Description: Resume API using Lambda and DynamoDB
 
 Globals:
   Function:
@@ -17,12 +17,21 @@ Resources:
       Policies:
         - DynamoDBReadPolicy:
             TableName: Resume
-      Environment:
-        Variables:
-          TABLE_NAME: Resume
       Events:
         ResumeApi:
           Type: Api
           Properties:
             Path: /resume
             Method: get
+
+  ResumeTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: Resume
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: id
+          KeyType: HASH
